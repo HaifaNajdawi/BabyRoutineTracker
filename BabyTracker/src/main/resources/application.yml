@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: BabyTracker
+    # DB Config
+  datasource:
+    url: jdbc:postgresql://localhost:5432/babyRoutineTracker
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    hibernate:
+      ddl-auto: update # Options: create, create-drop, update, validate, none
+    show-sql: true      # Prints SQL queries to the console
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    # server config
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+  # logging config
+logging:
+  level:
+    root: info
+    com.tracker: debug
+
