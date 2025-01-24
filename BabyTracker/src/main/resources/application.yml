@@ -20,6 +20,9 @@ server:
   # logging config
 logging:
   level:
+    org:
+      springframework:
+        security: debug
     root: info
     com.tracker: debug
 

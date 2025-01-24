@@ -1,7 +1,8 @@
 package com.tracker.BabyTracker.controller;
 
 import com.tracker.BabyTracker.Exception.ExistRecord;
-import com.tracker.BabyTracker.model.User;
+import com.tracker.BabyTracker.entity.User;
+import com.tracker.BabyTracker.model.ResponseUser;
 import com.tracker.BabyTracker.service.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -29,7 +30,7 @@ public class UserController {
 
     }
     @GetMapping("/users")
-    public ResponseEntity<List<User>> getUsers(){
+    public ResponseEntity<List<ResponseUser>> getUsers(){
         return new ResponseEntity<>(userService.allUsers(),HttpStatus.OK);
     }
 }

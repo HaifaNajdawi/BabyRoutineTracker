@@ -1,4 +1,4 @@
-package com.tracker.BabyTracker.model;
+package com.tracker.BabyTracker.entity;
 
 import jakarta.persistence.*;
 import lombok.Data;
