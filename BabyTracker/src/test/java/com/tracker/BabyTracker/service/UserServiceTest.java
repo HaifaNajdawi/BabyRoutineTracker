@@ -13,9 +13,11 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
@@ -84,5 +86,24 @@ class UserServiceTest {
         ResponseEntity<?> response = userService.createUser(name, email, validPassword);
         assertEquals("This record already Exist",response.getBody());
 
+    }
+    @Test
+    void allUsers(){
+        User user1 = new User();
+        user1.setName("Eleen");
+        user1.setEmail("Eleen@example.com");
+        User user2 = new User();
+        user2.setName("Karem");
+        user2.setEmail("karem@example.com");
+        when(userRepository.findAll()).thenReturn(Arrays.asList(user1,user1));
+        List<ResponseUser> users= userService.allUsers();
+        assertEquals("Eleen",users.get(0).getName());
+        assertEquals(2,users.size());
+    }
+    @Test
+    void allUsers_noUsersFound(){
+        when(userRepository.findAll()).thenReturn(Collections.EMPTY_LIST);
+        List<ResponseUser> users= userService.allUsers();
+        assertTrue(users.isEmpty());
     }
 }
