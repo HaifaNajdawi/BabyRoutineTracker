@@ -11,6 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,13 +66,16 @@ public class UserService {
 
     public List<ResponseUser> allUsers() {
         List<User> users = userRepository.findAll();
-
-        return users.stream().map(user -> {
-            ResponseUser responseUser = new ResponseUser();
-            responseUser.setName(user.getName());
-            responseUser.setEmail(user.getEmail());
-            return responseUser;
-        }).collect(Collectors.toList());
+        if (!(users.isEmpty())) {
+            return users.stream().map(user -> {
+                ResponseUser responseUser = new ResponseUser();
+                responseUser.setName(user.getName());
+                responseUser.setEmail(user.getEmail());
+                return responseUser;
+            }).collect(Collectors.toList());
+        } else {
+            return Collections.EMPTY_LIST;
+        }
     }
 
     public String encodedPassword(String password) {
