@@ -59,7 +59,7 @@ public class UserService {
                 return new ResponseEntity<>(new ExistRecord("The password missed one or more condition").getMessage(), HttpStatus.BAD_REQUEST);
             }
         } else {
-            return new ResponseEntity<>(new ExistRecord("This record already Exist"), HttpStatus.BAD_REQUEST);
+            return new ResponseEntity<>(new ExistRecord("This record already Exist").getMessage(), HttpStatus.BAD_REQUEST);
         }
     }
 
