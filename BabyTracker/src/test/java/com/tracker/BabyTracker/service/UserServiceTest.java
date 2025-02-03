@@ -17,6 +17,7 @@ import java.time.LocalDateTime;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 import static org.mockito.Mockito.*;
+import static org.springframework.http.HttpStatus.BAD_REQUEST;
 import static org.springframework.http.HttpStatus.CREATED;
 
 @ExtendWith(MockitoExtension.class)
@@ -31,6 +32,8 @@ class UserServiceTest {
     ResponseUser responseUser = new ResponseUser();
     String name = "Yazan";
     String validPassword = "Valid*123";
+    String invalidPassword = "weakpass";
+
     String email = "test@test.com";
     String email2 = "test2@test.com";
 
@@ -65,8 +68,21 @@ class UserServiceTest {
         when(userService.encodedPassword(anyString())).thenReturn("encodedPassword123");
         when(userRepository.save(any(User.class))).thenAnswer(invocation -> invocation.getArgument(0));
         ResponseEntity<?> response = userService.createUser(name, email, validPassword);
-
         assertEquals(CREATED, response.getStatusCode());
         verify(userRepository, times(1)).save(any(User.class));
+    }
+    @Test
+    void createUser_mismatchPassword(){
+        when(userRepository.findByEmail(anyString())).thenReturn(null);
+        ResponseEntity<?> response = userService.createUser(name, email, invalidPassword);
+        assertEquals(BAD_REQUEST,response.getStatusCode());
+        assertEquals("The password missed one or more condition",response.getBody());
+    }
+    @Test
+    void createUser_emailExist(){
+        when(userRepository.findByEmail(anyString())).thenReturn(user);
+        ResponseEntity<?> response = userService.createUser(name, email, validPassword);
+        assertEquals("This record already Exist",response.getBody());
+
     }
 }
