@@ -1,13 +1,13 @@
 
 import './App.css'
-import { Greeting } from './componants/Greeting'
+import { LoginPage } from './pages/LoginPage';
 
 function App() {
 
   return (
     <div>
-      <Greeting name={"Haifa"}></Greeting>
-    </div>
+      <LoginPage />
+        </div>
   );
 };
 
